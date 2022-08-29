@@ -137,5 +137,50 @@ namespace ProyectoFinalCoderHouse.Repository
            
         }
 
+        public void ActProductoStck(long IdP, int StckAct)
+        {
+            string query = "UPDATE Producto SET Stock = @Stock WHERE Id=@id;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(configuration.GetConnectionString("ConnectionString")))
+                {
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        connection.Open();
+                        command.Parameters.Add(new SqlParameter("@Stock", SqlDbType.Int)).Value = StckAct;
+                        command.Parameters.Add(new SqlParameter("@id", SqlDbType.BigInt)).Value = IdP;
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public static void ActStkVendido(long IdP, int StckV, IConfiguration configuration)
+        {
+            string query = "UPDATE Producto SET Stock = ((SELECT PR.Stock FROM Producto PR WHERE PR.id = @idProducto) + @StockVendido) " +
+                "where id = @idProducto;";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(configuration.GetConnectionString("ConnectionString")))
+                {
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        connection.Open();
+                        command.Parameters.Add(new SqlParameter("@idProducto", SqlDbType.Int)).Value = IdP;
+                        command.Parameters.Add(new SqlParameter("@StockVendido", SqlDbType.BigInt)).Value = StckV;
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+
     }
 }
