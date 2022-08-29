@@ -139,7 +139,7 @@ namespace ProyectoFinalCoderHouse.Repository
                 List<ProductoVendido> productosVendidos = ProductoVendidoHandler.TraerPVPorId(idv, configuration);
                 foreach (var item in productosVendidos)
                 {
-                    ProductoHandler.ActStkVendido(item.Id, item.Stock, configuration);
+                    ProductoHandler.ActStkVendido(item.IdProducto, item.Stock, configuration);
                 }
 
                 ProductoVendidoHandler.BorrarPrdPorIdV(idv, configuration);
